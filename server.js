@@ -503,7 +503,7 @@ app.get('/users', async (req, res) => {
         const user = await usersCollection.find({}).toArray();
 
         if (user.length > 0) {
-          return res.status(200).send([message: user]);
+          return res.status(200).send({message: user});
         } else {
             res.status(404).send('Users not fetched');
         }
