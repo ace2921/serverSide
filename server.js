@@ -416,7 +416,7 @@ app.post('/signup', async (req, res) => {
             createdAt: new Date() // Add the current date and time
         };
 
-        const usersCollection = db.collection('Access');
+        const usersCollection = db.collection('Users');
         const result = await usersCollection.insertOne(newUser);
 
         if (result) {
@@ -437,7 +437,7 @@ app.post('/signup', async (req, res) => {
 app.get('/signin/:email', async (req, res) => {
     try {
         const email = req.params.email;
-        const usersCollection = db.collection('Access'); // Collection name
+        const usersCollection = db.collection('Users'); // Collection name
         const user = await usersCollection.findOne({ email: email });
 
         if (user) {
@@ -456,7 +456,7 @@ app.put('/updateuser/:email', async (req, res) => {
     try {
         const email = req.params.email; // Get the email from the request parameters
         const updatedData = req.body; // Get the updated user data from the request body
-        const usersCollection = db.collection('Access');
+        const usersCollection = db.collection('Users');
 
         // Find and update the user
         const result = await usersCollection.updateOne(
@@ -481,7 +481,7 @@ app.put('/updateuser/:email', async (req, res) => {
 app.delete('/deleteuser/:email', async (req, res) => {
     try {
         const email = req.params.email; // Get the email from the request parameters
-        const usersCollection = db.collection('Access'); // Collection name
+        const usersCollection = db.collection('Users'); // Collection name
 
         // Delete the user based on the email
         const result = await usersCollection.deleteOne({ email: email });
