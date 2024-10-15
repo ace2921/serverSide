@@ -480,7 +480,7 @@ app.put('/updateuser/:email', async (req, res) => {
 // Endpoint to handle user deletion (DELETE)
 app.delete('/deleteuser/:email', async (req, res) => {
     try {
-        const email = req.params.email; // Get the email from the request parameters
+        const email = req.query.email; // Get the email from the request parameters
         const usersCollection = db.collection('Users'); // Collection name
 
         // Delete the user based on the email
