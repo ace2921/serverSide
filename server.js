@@ -497,6 +497,22 @@ app.delete('/deleteuser/:email', async (req, res) => {
     }
 });
 
+app.get('/users', async (req, res) => {
+    try {
+        const usersCollection = db.collection('Users'); // Collection name
+        const user = await usersCollection.find({}).toArray();
+
+        if (user.length > 0) {
+          return res.status(200).send("Fetched Users");
+        } else {
+            res.status(404).send('Users not fetched');
+        }
+    } catch (error) {
+        console.error('Error retrieving user:', error);
+        res.status(500).send('Error retrieving user');
+    }
+});
+
 // Starting the server and connecting to MongoDB
 app.listen(PORT, async () => {
     await connectToMongo();
