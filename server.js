@@ -434,7 +434,7 @@ app.post('/signup', async (req, res) => {
 });
 
 // Endpoint to handle user signin (READ)
-app.get('/signin/:email', async (req, res) => {
+app.get('/signin', async (req, res) => {
     try {
         const email = req.query.email;
         const usersCollection = db.collection('Users'); // Collection name
