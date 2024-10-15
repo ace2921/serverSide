@@ -436,12 +436,12 @@ app.post('/signup', async (req, res) => {
 // Endpoint to handle user signin (READ)
 app.get('/signin/:email', async (req, res) => {
     try {
-        const email = req.params.email;
+        const email = req.query.email;
         const usersCollection = db.collection('Users'); // Collection name
         const user = await usersCollection.findOne({ email: email });
 
         if (user) {
-            res.json(user);
+          return res.status(200).send(user);
         } else {
             res.status(404).send('User not found');
         }
