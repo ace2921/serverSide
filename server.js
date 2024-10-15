@@ -452,7 +452,7 @@ app.get('/signin', async (req, res) => {
 });
 
 // Endpoint to handle user update (UPDATE)
-app.put('/updateuser/:email', async (req, res) => {
+app.put('/updateuser', async (req, res) => {
     try {
         const email = req.query.email; // Get the email from the request parameters
         const updatedData = req.body; // Get the updated user data from the request body
