@@ -388,7 +388,7 @@ require("dotenv").config();
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 // MongoDB connection string
 const uri = process.env.MONGODB_URI;
