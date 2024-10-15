@@ -454,20 +454,23 @@ app.get('/signin', async (req, res) => {
 // Endpoint to handle user update (UPDATE)
 app.put('/updateuser', async (req, res) => {
     try {
-        const email = req.query.email; // Get the email from the request parameters
-        const updatedData = req.body; // Get the updated user data from the request body
+        const email = req.query.email;
+        const updatedData = req.body;
+        
+        if (!email) {
+            return res.status(400).json({ msg: 'Email is required' });
+        }
         const usersCollection = db.collection('Users');
-
-        // Find and update the user
+      
         const result = await usersCollection.updateOne(
-            { email: email }, // Filter by email
-            { $set: updatedData } // Update operation
+            { email: email },
+            { $set: updatedData }
         );
 
         if (result.modifiedCount === 1) {
             res.json({ msg: 'User updated successfully' });
         } else if (result.matchedCount === 1) {
-            res.status(304).send('No changes made'); // No changes made
+            res.status(304).send('No changes made');
         } else {
             res.status(404).send('User not found');
         }
@@ -476,6 +479,7 @@ app.put('/updateuser', async (req, res) => {
         res.status(500).send('Error updating user');
     }
 });
+
 
 // Endpoint to handle user deletion (DELETE)
 app.delete('/deleteuser/:email', async (req, res) => {
