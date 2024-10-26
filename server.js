@@ -388,7 +388,7 @@ require("dotenv").config();
 const express = require("express");
 const { MongoClient, ObjectId } = require("mongodb");
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 
 // MongoDB connection string
 const uri = process.env.MONGODB_URI;
@@ -399,9 +399,9 @@ let client, db;
 // Function to connect to MongoDB
 async function connectToMongo() {
     try {
-        client = new MongoClient(uri);
+        client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
         await client.connect();
-        db = client.db("ThinkFORMAL"); // Database name
+        db = client.db("ThinkFORMAL"); 
         console.log('Connected to MongoDB');
     } catch (error) {
         console.error('Not connected to MongoDB', error);
@@ -410,13 +410,14 @@ async function connectToMongo() {
 
 // Endpoint to handle user signup (CREATE)
 app.post('/signup', async (req, res) => {
+    if (!db) return res.status(500).send('Database connection not established');
     try {
         const newUser = {
             ...req.body,
-            createdAt: new Date() // Add the current date and time
+            createdAt: new Date() 
         };
 
-        const usersCollection = db.collection('Access');
+        const usersCollection = db.collection('Users');
         const result = await usersCollection.insertOne(newUser);
 
         if (result) {
@@ -428,16 +429,17 @@ app.post('/signup', async (req, res) => {
             res.status(500).send('Error inserting user');
         }
     } catch (error) {
-        console.error('Error inserting user:', error); // More detailed logging
+        console.error('Error inserting user:', error);
         res.status(500).send('Error processing request');
     }
 });
 
 // Endpoint to handle user signin (READ)
 app.get('/signin/:email', async (req, res) => {
+    if (!db) return res.status(500).send('Database connection not established');
     try {
         const email = req.params.email;
-        const usersCollection = db.collection('Access'); // Collection name
+        const usersCollection = db.collection('Users');
         const user = await usersCollection.findOne({ email: email });
 
         if (user) {
@@ -453,21 +455,21 @@ app.get('/signin/:email', async (req, res) => {
 
 // Endpoint to handle user update (UPDATE)
 app.put('/updateuser/:email', async (req, res) => {
+    if (!db) return res.status(500).send('Database connection not established');
     try {
-        const email = req.params.email; // Get the email from the request parameters
-        const updatedData = req.body; // Get the updated user data from the request body
-        const usersCollection = db.collection('Access');
+        const email = req.params.email;
+        const updatedData = req.body;
+        const usersCollection = db.collection('Users');
 
-        // Find and update the user
         const result = await usersCollection.updateOne(
-            { email: email }, // Filter by email
-            { $set: updatedData } // Update operation
+            { email: email },
+            { $set: updatedData }
         );
 
         if (result.modifiedCount === 1) {
             res.json({ msg: 'User updated successfully' });
         } else if (result.matchedCount === 1) {
-            res.status(304).send('No changes made'); // No changes made
+            res.status(304).send('No changes made');
         } else {
             res.status(404).send('User not found');
         }
@@ -477,13 +479,13 @@ app.put('/updateuser/:email', async (req, res) => {
     }
 });
 
-// Endpoint to handle user deletion (DELETE)
+// Endpoint to delete user (DELETE)
 app.delete('/deleteuser/:email', async (req, res) => {
+    if (!db) return res.status(500).send('Database connection not established');
     try {
-        const email = req.params.email; // Get the email from the request parameters
-        const usersCollection = db.collection('Access'); // Collection name
+        const email = req.params.email;
+        const usersCollection = db.collection('Users');
 
-        // Delete the user based on the email
         const result = await usersCollection.deleteOne({ email: email });
 
         if (result.deletedCount === 1) {
@@ -497,7 +499,6 @@ app.delete('/deleteuser/:email', async (req, res) => {
     }
 });
 
-// Starting the server and connecting to MongoDB
 app.listen(PORT, async () => {
     await connectToMongo();
     console.log(`The Server has started on port ${PORT}`);
