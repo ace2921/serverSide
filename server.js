@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require('cors');
 const { MongoClient, ObjectId } = require("mongodb");
 
 const app = express();
@@ -8,6 +9,7 @@ const uri = process.env.MONGODB_URI;
 
 app.use(express.json());
 let client, db;
+app.use(cors());
 
 // Function to connect to MongoDB
 async function connectToMongo() {
