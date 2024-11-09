@@ -1,10 +1,11 @@
 {
   "name": "my-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "commonjs",
+  "main": "server.cjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon"
+    "test": "mocha",
+    "start": "mocha --loader esm"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,10 @@
     "mongoose": "^8.7.0"
   },
   "devDependencies": {
+    "chai": "^5.1.2",
+    "chai-http": "^5.1.1",
+    "esm": "^3.2.25",
+    "mocha": "^10.8.2",
     "nodemon": "^3.1.7"
   }
 }
