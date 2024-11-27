@@ -1,0 +1,233 @@
+{
+  "stats": {
+    "suites": 4,
+    "tests": 4,
+    "passes": 0,
+    "pending": 0,
+    "failures": 4,
+    "start": "2024-11-09T15:35:37.831Z",
+    "end": "2024-11-09T15:35:38.248Z",
+    "duration": 417,
+    "testsRegistered": 4,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3da08169-3c70-49a6-a24c-23a147a39871",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "7cb795a9-155b-406e-8fcd-b53f13647279",
+          "title": "GET /users",
+          "fullFile": "C:\\Users\\Admin\\Documents\\templates\\FRONTEND2\\my-app\\my-server\\test\\api.test.mjs",
+          "file": "\\test\\api.test.mjs",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should return users",
+              "fullTitle": "GET /users should return users",
+              "timedOut": false,
+              "duration": 264,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "chai.request.execute(\"http://localhost:5000\")\n    .get(\"/users\")\n    .end((err, res) => {\n        if (err) return done(err);\n        \n        // Logging for debugging\n        console.log(\"Response body:\", res.body);\n        \n        // Assertions\n        expect(res).to.have.status(200);\n        expect(res.body).to.be.an(\"object\");\n        expect(res.body).to.have.property('message').that.is.an('array');\n        \n        // Check the first user object in the 'message' array\n        const firstUser = res.body.message[0];\n        expect(firstUser).to.be.an('object');\n        expect(firstUser).to.have.property('email');\n        expect(firstUser).to.have.property('username');\n        expect(firstUser).to.have.property('_id');\n        \n        done();\n    });",
+              "err": {
+                "message": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 500",
+                "estack": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 500\n    at file:///C:/Users/Admin/Documents/templates/FRONTEND2/my-app/my-server/test/api.test.mjs:27:45\n    at Request.callback (node_modules\\superagent\\lib\\node\\index.js:837:12)\n    at IncomingMessage.<anonymous> (node_modules\\superagent\\lib\\node\\index.js:1078:18)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+                "diff": "- 500\n+ 200\n"
+              },
+              "uuid": "b3df8173-c75f-48a0-a9f5-093be5b5904e",
+              "parentUUID": "7cb795a9-155b-406e-8fcd-b53f13647279",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "b3df8173-c75f-48a0-a9f5-093be5b5904e"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 264,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "22a45a0c-d2e5-4307-b5e0-c0806514d7a5",
+          "title": "POST /signup",
+          "fullFile": "C:\\Users\\Admin\\Documents\\templates\\FRONTEND2\\my-app\\my-server\\test\\api.test.mjs",
+          "file": "\\test\\api.test.mjs",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should create a new user and return the user object",
+              "fullTitle": "POST /signup should create a new user and return the user object",
+              "timedOut": false,
+              "duration": 48,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "chai.request.execute(\"http://localhost:5000\")\n    .post(\"/signup\")\n    .send({\n        username: 'Chibuzor Obi',\n        email: 'jonnyobi10@gmail.com',\n        password: 'rolemodel',\n        confirmPassword: 'rolemodel'\n    })\n    .end((err, res) => {\n        if (err) return done(err);\n        \n        // Debugging logs\n        console.log(\"Response status:\", res.status);\n        console.log(\"Response body:\", JSON.stringify(res.body, null, 2));\n        \n        // Basic Assertions\n        expect(res).to.have.status(201);\n        expect(res.body).to.be.an(\"object\");\n        \n        // Check for either 'status' or 'msg' property\n        if (res.body.hasOwnProperty('status')) {\n            expect(res.body).to.have.property('status').eql('success');\n        } else if (res.body.hasOwnProperty('msg')) {\n            expect(res.body).to.have.property('msg').to.be.a('string');\n        } else {\n            throw new Error(\"Unexpected response structure\");\n        }\n        \n        // Check the 'message' property if it exists\n        if (res.body.hasOwnProperty('message')) {\n            const user = res.body.message;\n            expect(user).to.be.an('object');\n            expect(user).to.have.property('_id');\n            expect(user).to.have.property('username').eql('Chibuzor Obi');\n            expect(user).to.have.property('email').eql('jonnyobi10@gmail.com');\n            expect(user).to.have.property('password');\n            expect(user).to.have.property('confirmPassword');\n            expect(user).to.have.property('createdAt');\n        }\n        \n        done();\n    });",
+              "err": {
+                "message": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 201 but got 500",
+                "estack": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 201 but got 500\n    at file:///C:/Users/Admin/Documents/templates/FRONTEND2/my-app/my-server/test/api.test.mjs:61:45\n    at Request.callback (node_modules\\superagent\\lib\\node\\index.js:837:12)\n    at IncomingMessage.<anonymous> (node_modules\\superagent\\lib\\node\\index.js:1078:18)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+                "diff": "- 500\n+ 201\n"
+              },
+              "uuid": "62e114f8-d78f-4018-a8b8-e29f55b433fb",
+              "parentUUID": "22a45a0c-d2e5-4307-b5e0-c0806514d7a5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "62e114f8-d78f-4018-a8b8-e29f55b433fb"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 48,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "1f26dd63-588f-47b6-84c0-4e07394601a5",
+          "title": "POST /products",
+          "fullFile": "C:\\Users\\Admin\\Documents\\templates\\FRONTEND2\\my-app\\my-server\\test\\api.test.mjs",
+          "file": "\\test\\api.test.mjs",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should create a new product and return the product object",
+              "fullTitle": "POST /products should create a new product and return the product object",
+              "timedOut": false,
+              "duration": 60,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "chai.request.execute(\"http://localhost:5000\")\n    .post(\"/products\")\n    .send({\n        name: 'New Product',\n        price: 29.99,\n        category: 'Mens',\n    })\n    .end((err, res) => {\n        if (err) return done(err);\n        \n        // Log the entire response for debugging\n        console.log(\"Response status:\", res.status);\n        console.log(\"Response headers:\", res.headers);\n        console.log(\"Response body:\", JSON.stringify(res.body, null, 2));\n        \n        // Check the status code\n        expect(res).to.have.status(201);\n        \n        // Check the structure of the response body\n        if (!res.body || typeof res.body !== 'object') {\n            return done(new Error(\"Response body is not an object or is missing.\"));\n        }\n        \n        // Extract the product object (in case it's nested)\n        const product = res.body.message || res.body.data || res.body;\n        \n        // Additional debug log\n        console.log(\"Extracted product object:\", product);\n        \n        // Assertions\n        expect(product).to.have.property('name').that.is.a('string').eql('New Product');\n        expect(product).to.have.property('price').that.is.a('number').eql(29.99);\n        expect(product).to.have.property('category').that.is.a('string').eql('Mens');\n        \n        done();\n    });",
+              "err": {
+                "message": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 201 but got 500",
+                "estack": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 201 but got 500\n    at file:///C:/Users/Admin/Documents/templates/FRONTEND2/my-app/my-server/test/api.test.mjs:109:45\n    at Request.callback (node_modules\\superagent\\lib\\node\\index.js:837:12)\n    at IncomingMessage.<anonymous> (node_modules\\superagent\\lib\\node\\index.js:1078:18)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+                "diff": "- 500\n+ 201\n"
+              },
+              "uuid": "c6197aec-aa83-4b06-ac3b-2a7560007b64",
+              "parentUUID": "1f26dd63-588f-47b6-84c0-4e07394601a5",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "c6197aec-aa83-4b06-ac3b-2a7560007b64"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 60,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        },
+        {
+          "uuid": "6579d4d2-ea94-401c-8474-b263480ef15b",
+          "title": "GET /products",
+          "fullFile": "C:\\Users\\Admin\\Documents\\templates\\FRONTEND2\\my-app\\my-server\\test\\api.test.mjs",
+          "file": "\\test\\api.test.mjs",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should return a list of products",
+              "fullTitle": "GET /products should return a list of products",
+              "timedOut": false,
+              "duration": 20,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "chai.request.execute(\"http://localhost:5000\")\n    .get(\"/products\")\n    .end((err, res) => {\n        if (err) return done(err);\n        \n        // Debugging logs\n        console.log(\"Response status:\", res.status);\n        console.log(\"Response body:\", JSON.stringify(res.body, null, 2));\n        \n        // Assertions\n        expect(res).to.have.status(200);\n        expect(res.body).to.be.an(\"array\"); // Expecting an array of products\n        expect(res.body.length).to.be.greaterThan(0); // Ensure there is at least one product\n        \n        // Check each product in the array\n        res.body.forEach((product, index) => {\n            console.log(`Product ${index}:`, JSON.stringify(product, null, 2)); // Log each product\n        \n            // Check if product has 'price' and ensure it is a number if present\n            if (product.hasOwnProperty('price')) {\n                expect(product.price).to.be.a('number');\n            } else {\n                // Handle case where price is missing\n                console.log(`Product ${index} does not have 'price' property`);\n            }\n        \n            // Check if product has 'category' and ensure it is a string if present\n            if (product.hasOwnProperty('category')) {\n                expect(product.category).to.be.a('string');\n            } else {\n                // Handle case where category is missing\n                console.log(`Product ${index} does not have 'category' property`);\n            }\n        \n            // Check if product has 'createdAt' and ensure it is a valid date string if present\n            if (product.hasOwnProperty('createdAt')) {\n                // Ensure createdAt is a valid date string\n                expect(new Date(product.createdAt)).to.be.a('date');\n            } else {\n                // Handle case where createdAt is missing\n                console.log(`Product ${index} does not have 'createdAt' property`);\n            }\n        \n            // Check for other expected properties\n            expect(product).to.have.property('_id');\n            expect(product).to.have.property('name').that.is.a('string');\n        });\n        \n        done();\n    });",
+              "err": {
+                "message": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 500",
+                "estack": "AssertionError: expected Response{ _events: {}, …(34), …(2) } to have status code 200 but got 500\n    at file:///C:/Users/Admin/Documents/templates/FRONTEND2/my-app/my-server/test/api.test.mjs:148:45\n    at Request.callback (node_modules\\superagent\\lib\\node\\index.js:837:12)\n    at IncomingMessage.<anonymous> (node_modules\\superagent\\lib\\node\\index.js:1078:18)\n    at IncomingMessage.emit (node:events:531:35)\n    at endReadableNT (node:internal/streams/readable:1696:12)\n    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)",
+                "diff": "- 500\n+ 200\n"
+              },
+              "uuid": "a1db0b30-10e9-4818-8ee6-b184f6b226e8",
+              "parentUUID": "6579d4d2-ea94-401c-8474-b263480ef15b",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [
+            "a1db0b30-10e9-4818-8ee6-b184f6b226e8"
+          ],
+          "pending": [],
+          "skipped": [],
+          "duration": 20,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "10.8.2"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.3"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.2.0"
+    }
+  }
+}

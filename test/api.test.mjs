@@ -15,7 +15,7 @@ const chai = use(chaiHttp);
 
         describe('GET /users', () => {
             it('should return users', (done) => {
-                chai.request.execute("http://34.235.149.135:5000")
+                chai.request.execute("http://localhost:5000")
                     .get("/users")
                     .end((err, res) => {
                         if (err) return done(err);
@@ -42,7 +42,7 @@ const chai = use(chaiHttp);
         
         describe('POST /signup', () => {
             it('should create a new user and return the user object', (done) => {
-                chai.request.execute("http://34.235.149.135:5000")
+                chai.request.execute("http://localhost:5000")
                     .post("/signup")
                     .send({
                         username: 'Chibuzor Obi',
@@ -90,7 +90,7 @@ const chai = use(chaiHttp);
 
         describe('POST /products', () => {
             it('should create a new product and return the product object', (done) => {
-                chai.request.execute("http://34.235.149.135:5000")
+                chai.request.execute("http://localhost:5000")
                     .post("/products")
                     .send({
                         name: 'New Product',
@@ -135,7 +135,7 @@ const chai = use(chaiHttp);
 
         describe('GET /products', () => {
             it('should return a list of products', (done) => {
-                chai.request.execute("http://34.235.149.135:5000")
+                chai.request.execute("http://localhost:5000")
                     .get("/products")
                     .end((err, res) => {
                         if (err) return done(err);

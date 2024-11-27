@@ -161,7 +161,7 @@ app.post('/products', async (req, res) => {
 });
 
 
-// READ all products
+
 app.get('/products', async (req, res) => {
     try {
         const productsCollection = db.collection('Products');
@@ -178,7 +178,7 @@ app.get('/products', async (req, res) => {
     }
 });
 
-// READ a product by ID
+
 app.get('/products/:id', async (req, res) => {
     try {
         const productId = req.params.id;
@@ -196,7 +196,7 @@ app.get('/products/:id', async (req, res) => {
     }
 });
 
-// UPDATE a product by ID
+
 app.put('/products/:id', async (req, res) => {
     try {
         const productId = req.params.id;
@@ -221,7 +221,7 @@ app.put('/products/:id', async (req, res) => {
     }
 });
 
-// DELETE a product by ID
+
 app.delete('/products/:id', async (req, res) => {
     try {
         const productId = req.params.id;
